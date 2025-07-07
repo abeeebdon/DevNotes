@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const samplePosts = [
   {
@@ -7,7 +10,7 @@ const samplePosts = [
     date: "2025-06-15",
     description: "A beginner-friendly introduction to the JavaScript language.",
     category: "Beginner",
-    content: `JavaScript is one of the most popular programming languages today. In this post, we’ll explore the basics of variables, functions, and loops — everything you need to write your first JS app.`,
+    content: `JavaScript is one of the most popular programming languages today...`,
   },
   {
     title: "How I Built My First Portfolio Website",
@@ -16,25 +19,25 @@ const samplePosts = [
     description:
       "A personal journey of building and launching my first dev portfolio.",
     category: "Story",
-    content: `I started with no knowledge of design or deployment. After lots of tutorials and many errors, I finally built and deployed my portfolio using HTML, CSS, and Netlify. Here's what I learned...`,
+    content: `I started with no knowledge of design or deployment...`,
   },
   {
     title: "5 React Hooks You Should Know",
     slug: "5-react-hooks-you-should-know",
     date: "2025-07-01",
     description:
-      "React hooks can transform how you write functional components. Here are the most useful ones.",
+      "React hooks can transform how you write functional components...",
     category: "React",
-    content: `React hooks like useState, useEffect, useMemo, useCallback, and useRef are game changers. This post breaks down how and when to use each of them with real-world examples.`,
+    content: `React hooks like useState, useEffect, useMemo...`,
   },
   {
     title: "Understanding useEffect in React",
     slug: "understanding-useeffect-in-react",
     date: "2025-07-04",
     description:
-      "Confused by useEffect? Let’s break it down with simple explanations and examples.",
+      "Confused by useEffect? Let’s break it down with simple examples.",
     category: "React",
-    content: `useEffect lets you synchronize your component with side effects like fetching data or listening to scroll. This guide shows how dependency arrays and cleanup work in plain English.`,
+    content: `useEffect lets you synchronize your component with side effects...`,
   },
   {
     title: "Beginner’s Guide to Git and GitHub",
@@ -43,54 +46,146 @@ const samplePosts = [
     description:
       "Learn how to version control your code and collaborate using Git and GitHub.",
     category: "Beginner",
-    content: `Version control is a must for any developer. This post covers basic Git commands, how to make commits, push to GitHub, and create pull requests with confidence.`,
+    content: `Version control is a must for any developer...`,
   },
   {
     title: "From HTML to React: My Transition Story",
     slug: "from-html-to-react-my-story",
     date: "2025-06-28",
     description:
-      "Going from static HTML pages to building dynamic apps with React — my experience and advice.",
+      "Going from static HTML pages to React — my experience and advice.",
     category: "Story",
-    content: `I started with simple HTML sites and soon felt limited. Learning React opened new doors — reusable components, hooks, and state made building apps fun again. Here’s my journey.`,
+    content: `I started with simple HTML sites and soon felt limited...`,
   },
 ];
 
+const blogTopics = [
+  { name: "JavaScript", slug: "javascript" },
+  { name: "Python", slug: "python" },
+  { name: "Dart", slug: "dart" },
+  { name: "React", slug: "react" },
+  { name: "Beginner", slug: "beginner" },
+  { name: "Story", slug: "story" },
+];
+
+const trendingArray = ["JavaScript", "Python", "React", "Story"];
+
 export default function Home() {
+  const [filterPosts, setFilterPosts] = useState(samplePosts);
+  const [selectedTopic, setSelectedTopic] = useState("");
+
+  useEffect(() => {
+    if (!selectedTopic) {
+      setFilterPosts(samplePosts);
+    } else {
+      setFilterPosts(
+        samplePosts.filter(
+          (post) => post.category.toLowerCase() === selectedTopic.toLowerCase()
+        )
+      );
+    }
+  }, [selectedTopic]);
+
   return (
     <main>
-      {/* header section goes here  */}
-
-      {/* header completed  */}
-      {/* hero section  */}
-      <section className="max-w-4xl mx-auto px-6 py-12 text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to My Blog</h1>
-        <p className="text-lg text-gray-600">
-          Sharing thoughts, tutorials, and stories from my journey as a
-          developer.
-        </p>
+      {/* Hero Section */}
+      <section
+        className="h-[400px] sm:h-[440px] flex justify-center items-center px-4 sm:px-6 py-10 text-center bg-cover bg-center shadow-lg text-white"
+        style={{ backgroundImage: "url('/bg1.jpg')" }}
+      >
+        <div className="max-w-xl">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4">
+            Welcome to DevNotes
+          </h1>
+          <p className="text-base sm:text-lg text-gray-100">
+            Find all solutions to your bugs in JavaScript, Python and Dart
+            programming languages
+          </p>
+        </div>
       </section>
 
-      {/* all blogs */}
-      <main className="max-w-3xl mx-auto py-12">
-        <h1 className="text-3xl font-bold mb-6">All Blog Posts</h1>
+      {/* Blog Section */}
+      <section className="flex flex-col md:flex-row gap-10 items-start justify-between px-4 sm:px-6 py-12">
+        {/* Sidebar – Blog Topics */}
+        <aside className="w-full md:w-1/3  md:max-w-[300px] text-center md:text-left">
+          <h2 className="text-blue-700 font-bold text-2xl">Blog Topics</h2>
+          <div className="flex flex-row overflow-auto scrollbar-hide md:flex-col gap-4 mt-6  md:justify-start">
+            <button
+              onClick={() => setSelectedTopic("")}
+              className={`px-4 py-2 rounded text-sm block w-full md:w-auto ${
+                selectedTopic === ""
+                  ? "font-bold text-blue-700"
+                  : "text-gray-700"
+              } hover:underline`}
+            >
+              All Topics
+            </button>
+            {blogTopics.map((topic) => (
+              <button
+                key={topic.slug}
+                onClick={() => setSelectedTopic(topic.name)}
+                className={`px-4 py-2 rounded text-sm w-full md:w-auto ${
+                  selectedTopic === topic.name
+                    ? "font-bold text-blue-700"
+                    : "text-gray-700"
+                } hover:underline`}
+              >
+                {topic.name}
+              </button>
+            ))}
+          </div>
+        </aside>
 
-        <ul className="space-y-6">
-          {samplePosts.map(({ slug, title, date, description, category }) => (
-            <li key={slug} className="border-b pb-4">
-              <Link href={`/blog/${slug}`}>
-                <h2 className="text-xl font-semibold text-blue-600 hover:underline">
-                  {title}
-                </h2>
-              </Link>
-              <p className="text-sm text-gray-500">
-                {date} · {category}
+        {/* Main Content – Blog Posts */}
+        <div className="flex-1 w-full">
+          {/* Trending Topics */}
+          <article className="hidden md:block mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-6">
+              Trending Topics
+            </h2>
+            <div className="flex flex-wrap gap-3">
+              {trendingArray.map((topic) => (
+                <div
+                  key={topic}
+                  onClick={() => setSelectedTopic(topic)}
+                  className={`cursor-pointer px-4 py-2 rounded-full text-sm border transition ${
+                    selectedTopic === topic
+                      ? "bg-blue-600 text-white border-blue-600"
+                      : "bg-transparent text-gray-700 border-gray-300 hover:border-blue-500 hover:text-blue-600"
+                  }`}
+                >
+                  {topic}
+                </div>
+              ))}
+            </div>
+          </article>
+
+          {/* Blog List */}
+          <h1 className="text-2xl sm:text-3xl font-bold mb-6">
+            All Blog Posts
+          </h1>
+          <ul className="space-y-6">
+            {filterPosts.map(({ slug, title, date, description, category }) => (
+              <li key={slug} className="border-b pb-4">
+                <Link href={`/blog/${slug}`}>
+                  <h2 className="text-lg sm:text-xl font-semibold text-blue-600 hover:underline">
+                    {title}
+                  </h2>
+                </Link>
+                <p className="text-sm text-gray-500">
+                  {date} · {category}
+                </p>
+                <p className="mt-1 text-gray-700 text-sm">{description}</p>
+              </li>
+            ))}
+            {filterPosts.length === 0 && (
+              <p className="text-gray-500 text-sm">
+                No posts found for "{selectedTopic}"
               </p>
-              <p className="mt-1 text-gray-700">{description}</p>
-            </li>
-          ))}
-        </ul>
-      </main>
+            )}
+          </ul>
+        </div>
+      </section>
     </main>
   );
 }
