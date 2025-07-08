@@ -10,18 +10,8 @@ const categories = [
 const page = () => {
   return (
     <section className=" h-full">
-      <article className="flex items-center bg-white justify-between  p-4 rounded-xl shadow-md">
-        <div className="flex flex-col gap-1">
-          <h2 className="text-xl font-semibold">Create Posts</h2>
-          <p className="text-sm">Write, share and lets learn</p>
-        </div>
-        <div className="flex items-center gap-4">
-          <Bell />
-          <Mail />
-        </div>
-      </article>
-      <article className="flex h-full  gap-4 mt-4">
-        <article className="bg-white w-1/3  justify-between h-full  p-4 rounded-xl shadow-md">
+      <article className="flex h-full  gap-6 mt-4">
+        <article className="w-1/3  justify-between h-full  ">
           <h2>Post Details</h2>
           <div className="border-2 mt-4 border-dotted flex items-center justify-center rounded-2xl  h-30 ">
             <Plus />
@@ -62,7 +52,7 @@ const page = () => {
             </div>
           </article>
         </article>
-        <section className="bg-white w-2/3  justify-between h-full  p-4 rounded-xl shadow-md">
+        <section className="w-2/3  justify-between h-full  ">
           <article className="flex items-center justify-between">
             <div className="flex items-center border border-gray-200">
               <span>B</span>
