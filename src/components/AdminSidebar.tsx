@@ -1,11 +1,12 @@
-import { Command, Home, Pen, Pencil, Settings, User } from "lucide-react";
+import { CatIcon, Command, Home, Pencil, Settings, User } from "lucide-react";
 import Link from "next/link";
 
 const links = [
   { href: "/dashboard", label: "Dashboard", icon: <Home /> },
   { href: "/posts", label: "Posts", icon: <User /> },
   { href: "/comments", label: "Comments", icon: <Command /> },
-  { href: "/notifications", label: "Settings", icon: <Settings /> },
+  { href: "/settings", label: "Settings", icon: <Settings /> },
+  { href: "/categories", label: "Categories", icon: <CatIcon /> },
 ];
 const AdminSidebar = () => {
   return (
