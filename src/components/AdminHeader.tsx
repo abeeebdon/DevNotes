@@ -26,7 +26,7 @@ const AdminHeader = () => {
   };
 
   return (
-    <article className="flex items-center bg-white justify-between  p-4 rounded-xl shadow-md">
+    <article className="flex items-center bg-[#f5f2f2] justify-between  p-4 rounded-xl shadow-md">
       <div className="flex flex-col gap-1">
         <h2 className="text-xl font-semibold">{getHeaderContent()}</h2>
         <p className="text-sm">Write, share and lets learn</p>

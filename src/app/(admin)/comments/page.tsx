@@ -304,8 +304,8 @@ const Comments = () => {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto bg-white rounded-xl ">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6  pb-4">
+      <div className=" rounded-xl ">
+        <h1 className="text-3xl font-bold text-gray-900 mb-6  ">
           Comments Management
         </h1>
 
@@ -350,111 +350,175 @@ const Comments = () => {
         </div>
 
         {/* Comments Table */}
-        <div className="overflow-x-auto rounded-lg shadow-md">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
-                >
-                  <input
-                    type="checkbox"
-                    className="form-checkbox h-4 w-4 text-indigo-600 rounded"
-                    onChange={(e) => handleSelectAllChange(e.target.checked)}
-                    checked={
-                      selectedCommentIds.length === filteredComments.length &&
-                      filteredComments.length > 0
-                    }
-                    disabled={filteredComments.length === 0}
-                  />
-                </th>
-                {tableHeaders.map(({ label, className }) => (
-                  <th
-                    key={label}
-                    scope="col"
-                    className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${
-                      className || ""
-                    }`}
-                  >
-                    {label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {filteredComments.length === 0 ? (
+        <div className="rounded-lg shadow-md">
+          {/* ─── Desktop Table ──────────────────────────────── */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead>
                 <tr>
-                  <td
-                    colSpan={7}
-                    className="px-6 py-4 whitespace-nowrap text-center text-gray-500"
-                  >
-                    No comments found matching your criteria.
-                  </td>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg">
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 text-indigo-600 rounded"
+                      onChange={(e) => handleSelectAllChange(e.target.checked)}
+                      checked={
+                        selectedCommentIds.length === filteredComments.length &&
+                        filteredComments.length > 0
+                      }
+                      disabled={filteredComments.length === 0}
+                    />
+                  </th>
+
+                  {tableHeaders.map(({ label, className }) => (
+                    <th
+                      key={label}
+                      className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${
+                        className ?? ""
+                      }`}
+                    >
+                      {label}
+                    </th>
+                  ))}
                 </tr>
-              ) : (
-                filteredComments.map((comment) => (
-                  <tr key={comment.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <input
-                        type="checkbox"
-                        className="form-checkbox h-4 w-4 text-indigo-600 rounded"
-                        checked={selectedCommentIds.includes(comment.id)}
-                        onChange={(e) =>
-                          handleCheckboxChange(comment.id, e.target.checked)
-                        }
-                      />
-                    </td>
-                    <td className="px-6 py-4 max-w-xs truncate text-sm text-gray-900">
-                      {comment.content}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {comment.author} <br />{" "}
-                      <span className="text-xs text-gray-500">
-                        {comment.email}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-indigo-600 hover:underline cursor-pointer">
-                      {comment.post}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {comment.date}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClasses(
-                          comment.status
-                        )}`}
-                      >
-                        {comment.status.charAt(0).toUpperCase() +
-                          comment.status.slice(1)}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button
-                        className="text-indigo-600 cursor-pointer hover:text-indigo-900 relative mr-3 group edit-comment-btn"
-                        onClick={() => openCommentDetailModal(comment.id)}
-                      >
-                        <Pencil size={16} />
-                        <span className="hidden group-hover:block text-xs absolute top-full">
-                          Edit
-                        </span>
-                      </button>
-                      <button
-                        className="text-red-600 relative group cursor-pointer hover:text-red-900 delete-comment-btn"
-                        onClick={() => handleDeleteComment(comment.id)}
-                      >
-                        <Trash2 size={16} />
-                        <span className="hidden group-hover:block text-xs absolute top-full">
-                          Delete
-                        </span>
-                      </button>
+              </thead>
+
+              <tbody className="divide-y divide-gray-200">
+                {filteredComments.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="px-6 py-4 text-center text-gray-500"
+                    >
+                      No comments found matching your criteria.
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  filteredComments.map((comment) => (
+                    <tr key={comment.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <input
+                          type="checkbox"
+                          className="form-checkbox h-4 w-4 text-indigo-600 rounded"
+                          checked={selectedCommentIds.includes(comment.id)}
+                          onChange={(e) =>
+                            handleCheckboxChange(comment.id, e.target.checked)
+                          }
+                        />
+                      </td>
+                      <td className="px-6 py-4 max-w-xs truncate text-sm text-gray-900">
+                        {comment.content}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {comment.author}
+                        <br />
+                        <span className="text-xs text-gray-500">
+                          {comment.email}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-indigo-600 hover:underline cursor-pointer">
+                        {comment.post}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {comment.date}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClasses(
+                            comment.status
+                          )}`}
+                        >
+                          {comment.status.charAt(0).toUpperCase() +
+                            comment.status.slice(1)}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button
+                          className="text-indigo-600 cursor-pointer hover:text-indigo-900 relative mr-3 group edit-comment-btn"
+                          onClick={() => openCommentDetailModal(comment.id)}
+                        >
+                          <Pencil size={16} />
+                          <span className="hidden group-hover:block text-xs absolute top-full">
+                            Edit
+                          </span>
+                        </button>
+                        <button
+                          className="text-red-600 relative group cursor-pointer hover:text-red-900 delete-comment-btn"
+                          onClick={() => handleDeleteComment(comment.id)}
+                        >
+                          <Trash2 size={16} />
+                          <span className="hidden group-hover:block text-xs absolute top-full">
+                            Delete
+                          </span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* ─── Mobile Card List ───────────────────────────── */}
+          <div className="md:hidden space-y-4">
+            {filteredComments.length === 0 ? (
+              <p className="text-center text-gray-500 py-4">
+                No comments found matching your criteria.
+              </p>
+            ) : (
+              filteredComments.map((c) => (
+                <div
+                  key={c.id}
+                  className="bg-white rounded-lg shadow-sm p-4 space-y-3 border border-gray-200"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center space-x-3">
+                      <input
+                        type="checkbox"
+                        className="h-5 w-5 text-indigo-600 rounded"
+                        checked={selectedCommentIds.includes(c.id)}
+                        onChange={(e) =>
+                          handleCheckboxChange(c.id, e.target.checked)
+                        }
+                      />
+                      <span className="text-sm font-medium">{c.author}</span>
+                    </div>
+                    <span
+                      className={`px-2 py-0.5 text-xs font-semibold rounded-full ${getStatusClasses(
+                        c.status
+                      )}`}
+                    >
+                      {c.status}
+                    </span>
+                  </div>
+
+                  <p className="text-sm text-gray-700">{c.content}</p>
+
+                  <div className="text-xs text-gray-500 space-y-1">
+                    <p>Email: {c.email}</p>
+                    <p>
+                      Post: <span className="text-indigo-600">{c.post}</span>
+                    </p>
+                    <p>Date: {c.date}</p>
+                  </div>
+
+                  <div className="flex justify-end space-x-4 pt-2">
+                    <button
+                      onClick={() => openCommentDetailModal(c.id)}
+                      className="flex items-center text-indigo-600 text-sm"
+                    >
+                      <Pencil size={14} className="mr-1" /> Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteComment(c.id)}
+                      className="flex items-center text-red-600 text-sm"
+                    >
+                      <Trash2 size={14} className="mr-1" /> Delete
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
 
         {/* Pagination and Bulk Actions */}
